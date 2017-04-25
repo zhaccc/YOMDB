@@ -1,0 +1,30 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+  <h1>YOMDB</h1>
+      <p>Please enter movie name: </p>
+      
+    <form action="{% url 'movies:search' %}" method="GET">
+      <input placeholder="enter movie title" type="text" id="qs" name="q" >
+      <input type="submit" value="Search" >
+    </form>
+    
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    {% if can_add %}
+    <form action="{% url 'movies:add_item' %}" method="post">
+{% csrf_token %}
+    <input type="submit" name="add_to_watch" id="qs" value="Add to watchlist" />
+    <input type="hidden" name="title" value="{{ movie.Title }}">
+    <input type="hidden" name="genre" value="{{ movie.Genre }}">
+    <input type="hidden" name="actors" value="{{ movie.Actors }}">
+    </form>
+    {% endif %}
+    
+{% if movie %}
+<h2>{{ movie.Title }}</h2>
+<p>{{ movie.Released }}</p>
+<p>{{ movie.Plot }}</p>
+
+<img src="{{movie.Poster}}">
+{% endif %}
+
+{% endblock%}

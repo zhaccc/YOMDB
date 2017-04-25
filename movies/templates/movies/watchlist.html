@@ -1,0 +1,12 @@
+<p>Welcome to watchlist!</p>
+
+<ul>
+{% for movie in movies_watchlist %}
+<li>{{ movie.title }}</li>
+<li>{{ movie.date_added }}</li>
+<li>{{ movie.genre }}</li>
+<li>{{ movie.actors }}</li>
+<li>Watched: {{ movie.watched }}</li>
+<p></p>
+{% endfor %}
+</ul>
