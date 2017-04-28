@@ -8,6 +8,3 @@ class Watchlist(models.Model):
     genre = models.TextField()
     actors = models.TextField()
     watched = models.BooleanField(default=False)
-    
-    class Meta:
-        unique_together = ["title", "genre", "actors"]

@@ -9,23 +9,17 @@
     <li>{{ movie.date_added }}</li>
     <li>{{ movie.genre }}</li>
     <li>{{ movie.actors }}</li>
-    <li style="float:left">Watched: {{ movie.watched }}</li>
-
-    <div>
+    <li style="float:left">Watched: {% if movie.watched %}Watched{% else %}Not watched{% endif %}
+    </li>
     
-    
-    </div>
-    
-    <!-- <a href="{% url 'movies:delete_item' movie.id %}">delete</a> -->
-
-    <form action="{% url 'movies:delete_item' movie.id %}">
-        <input type="submit" value="Delete" />
-    </form>
-
     <form action="{% url 'movies:update_item' movie.id %}" method="post">
         {% csrf_token %}
         <input type="checkbox" id="watched" name="watched" {% if watched %} checked="checked" {% endif %} />
         <input type="submit" value="Save changes" />
+    </form>
+
+    <form action="{% url 'movies:delete_item' movie.id %}">
+        <input type="submit" value="Delete" />
     </form>
 
     <p></p>

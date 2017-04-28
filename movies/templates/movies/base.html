@@ -7,6 +7,10 @@
     
     <p> Welcome '{{ request.user.username }}'!</p>
     
+    <form action={% url 'movies:logout' %}>
+        <input type="submit" value="Logout" />
+    </form>
+    
     {% block content %}
     {% endblock %}
 </body>

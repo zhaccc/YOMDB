@@ -2,8 +2,8 @@
 {% block content %}
 
 <form action="{% url 'movies:home'%}">
-        <input type="submit" value="Back to search" />
-    </form>
+    <input type="submit" value="Back to search" />
+</form>
 
 <p>Welcome to watchlist!</p>
 
@@ -22,18 +22,12 @@
 <li><strong>Date Added:</strong> {{ movie.date_added }}</li>
 <li><strong>Genre:</strong> {{ movie.genre }}</li>
 <li><strong>Actors:</strong> {{ movie.actors }}</li>
-<li><strong>Watched:</strong> {{ movie.watched }}</li>
+<li><strong>Watched:</strong> {% if movie.watched %}Watched{% else %}Not watched{% endif %}</li>
 </ul>
 
 <form action="{% url 'movies:detail' movie.id %}">
     <input type="submit" value="Details" />
 </form>
-
-<!--
-<form action="{% url 'movies:delete_item' movie.id %}" method="post">
-{% csrf_token %}
-    <input type="submit" name="delete_from_watch" id="movie_id" value="Delete from watchlist" /> -->
-<p></p>
 {% endfor %}
 
 {% endblock %}
