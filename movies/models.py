@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 
 class Watchlist(models.Model):
@@ -7,3 +8,6 @@ class Watchlist(models.Model):
     genre = models.TextField()
     actors = models.TextField()
     watched = models.BooleanField(default=False)
+    
+    class Meta:
+        unique_together = ["title", "genre", "actors"]

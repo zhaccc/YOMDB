@@ -1,12 +1,39 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+
+<form action="{% url 'movies:home'%}">
+        <input type="submit" value="Back to search" />
+    </form>
+
 <p>Welcome to watchlist!</p>
 
-<ul>
+<p> Search: </p>
+      
+    <form action="{% url 'movies:search_watchlist' %}" method="GET">
+      <input placeholder="enter stuff" type="text" id="q" name="q">
+      <input type="submit" value="Search" >
+    </form>
+
+
 {% for movie in movies_watchlist %}
-<li>{{ movie.title }}</li>
-<li>{{ movie.date_added }}</li>
-<li>{{ movie.genre }}</li>
-<li>{{ movie.actors }}</li>
-<li>Watched: {{ movie.watched }}</li>
+
+<h3>{{ movie.title }}</h3>
+<ul>
+<li><strong>Date Added:</strong> {{ movie.date_added }}</li>
+<li><strong>Genre:</strong> {{ movie.genre }}</li>
+<li><strong>Actors:</strong> {{ movie.actors }}</li>
+<li><strong>Watched:</strong> {{ movie.watched }}</li>
+</ul>
+
+<form action="{% url 'movies:detail' movie.id %}">
+    <input type="submit" value="Details" />
+</form>
+
+<!--
+<form action="{% url 'movies:delete_item' movie.id %}" method="post">
+{% csrf_token %}
+    <input type="submit" name="delete_from_watch" id="movie_id" value="Delete from watchlist" /> -->
 <p></p>
 {% endfor %}
-</ul>
+
+{% endblock %}

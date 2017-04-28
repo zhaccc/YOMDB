@@ -3,6 +3,10 @@
 </head>
 
 <body>
-  {% block content %}
-  {% endblock %}
+    <h1>YOMDB</h1>
+    
+    <p> Welcome '{{ request.user.username }}'!</p>
+    
+    {% block content %}
+    {% endblock %}
 </body>

@@ -1,14 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from movies.utils import get_movie_data
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from movies.models import Watchlist
 
 
+
+@login_required(login_url = 'movies:login')
 def home(request):
     return render(request, 'movies/home.html', {'can_add': False})
 
 
+@login_required(login_url = 'movies:login')
 def search(request):
         q = request.GET['q']
         if not q:
@@ -25,21 +30,77 @@ def search(request):
             })
         return render(request, 'movies/home.html',
                       {'movie': movie, 'query': q, 'can_add': True})
+                      
 
+@login_required(login_url = 'movies:login')
+def search_watchlist(request):
+    q = request.GET['q']
+    """
+    if 'q' in request.GET and request.GET['q']:
+        get_watchlist = Watchlist.objects.filter(title__contains = q)
+    else:
+        get_watchlist = Watchlist.objects.filter(actors__contains = q)
+        """
+    get_watchlist = Watchlist.objects.filter(Q(title__contains=q) 
+        | Q(actors__contains=q)
+        | Q(genre__contains=q)
+        | Q(actors__contains=q)
+        | Q(watched__contains=q))
+    # get_actor = Watchlist.objects.filter(actor__contains = q)
+    return render(request, 'movies/watchlist.html',
+                  {'movies_watchlist': get_watchlist})
+                      
 
+@login_required(login_url = 'movies:login')
 def watchlist(request):
     movies_watchlist = Watchlist.objects.all()
     context = {'movies_watchlist': movies_watchlist}
     return render(request, 'movies/watchlist.html', context)
 
+@login_required(login_url = 'movies:login')    
+def detail(request, movie_id):
+    movie = get_object_or_404(Watchlist, pk=movie_id)
+    return render(request, 'movies/detail.html', {'movie': movie})
 
+
+@login_required(login_url = 'movies:login')
 def add_item(request):
     model = Watchlist(title=request.POST['title'], genre=request.POST['genre'],
                       actors=request.POST['actors'])
     model.save()
     return HttpResponseRedirect(reverse('movies:watchlist'))
     
-def delete_item(request, movie_id):
-    model = Watchlist.objects.get(id=movie_id)
+"""def delete_item(request, movie_id):
+    model = Watchlist.objects.get(pk=movie_id)
     model.delete()
+    return HttpResponseRedirect(reverse('movies:watchlist'))"""
+
+
+@login_required(login_url = 'movies:login')    
+def delete_item(request, movie_id, template_name='movies/movie_confirm_delete.html'):
+    movie = get_object_or_404(Watchlist, pk=movie_id)    
+    if request.method=='POST':
+        movie.delete()
+        return HttpResponseRedirect(reverse('movies:watchlist'))
+    return render(request, template_name, {'movie': movie})
+
+
+@login_required(login_url = 'movies:login')    
+def update_item(request, movie_id):
+    movie = get_object_or_404(Watchlist, pk=movie_id)
+    watched = request.POST['watched']
+    if watched == 'on':
+        has_watched = True
+    else:
+        has_watched = False
+    movie.watched = has_watched
+    movie.save()
     return HttpResponseRedirect(reverse('movies:watchlist'))
+
+   
+def login(request):
+    return render(request, 'movies/login.html') 
+
+   
+def log_out(request):
+    return render(request, 'movies/log_out.html') 
