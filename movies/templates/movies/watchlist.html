@@ -10,8 +10,8 @@
 <p> Search: </p>
       
     <form action="{% url 'movies:search_watchlist' %}" method="GET">
-      <input placeholder="enter stuff" type="text" id="q" name="q">
-      <input type="submit" value="Search" >
+        <input placeholder="enter stuff" type="text" id="q" name="q">
+        <input type="submit" value="Search" >
     </form>
 
 
@@ -19,10 +19,10 @@
 
 <h3>{{ movie.title }}</h3>
 <ul>
-<li><strong>Date Added:</strong> {{ movie.date_added }}</li>
-<li><strong>Genre:</strong> {{ movie.genre }}</li>
-<li><strong>Actors:</strong> {{ movie.actors }}</li>
-<li><strong>Watched:</strong> {% if movie.watched %}Watched{% else %}Not watched{% endif %}</li>
+    <li><strong>Date Added:</strong> {{ movie.date_added }}</li>
+    <li><strong>Genre:</strong> {{ movie.genre }}</li>
+    <li><strong>Actors:</strong> {{ movie.actors }}</li>
+    <li><strong>Watched:</strong> {% if movie.watched %}Watched{% else %}Not watched{% endif %}</li>
 </ul>
 
 <form action="{% url 'movies:detail' movie.id %}">

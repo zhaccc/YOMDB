@@ -1,7 +1,9 @@
-{% block title %}See you!{% endblock %}
-
+{% extends 'movies/auth_base.html' %}
 {% block content %}
+
     <h2>Logged out</h2>
+    <h3>See you!</h3>
     <p>You have been successfully logged out.</p>
     <p><a href="{% url 'movies:login' %}">Log in</a> again.</p>
+
 {% endblock %}

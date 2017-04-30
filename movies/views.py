@@ -22,7 +22,7 @@ def search(request):
                 })
 
         movie = get_movie_data(q)
-        print(movie['Title'])
+        
         if 'Error' in movie:
             return render(request, 'movies/home.html', {
                 'error_message': 'Movie not found.',
@@ -53,6 +53,7 @@ def watchlist(request):
     movies_watchlist = Watchlist.objects.all()
     context = {'movies_watchlist': movies_watchlist}
     return render(request, 'movies/watchlist.html', context)
+
 
 @login_required(login_url = 'movies:login')    
 def detail(request, movie_id):

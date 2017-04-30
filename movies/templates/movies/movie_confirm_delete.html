@@ -1,5 +1,16 @@
-<form method="post">
-{% csrf_token %}
-    Are you sure you want to delete "{{ movie.title }}" ?
-    <input type="submit" value="Submit" />
-</form>
+<head>
+    <title>YOMDB: Confirm delete</title>
+</head>
+
+<body>
+    <h1>YOMDB</h1>
+    
+    <form action="{% url 'movies:detail' movie.id %}">
+        <input type="submit" value="Back to movie details" />
+    </form>
+    
+    <form method="post">
+    {% csrf_token %}
+        Are you sure you want to delete "{{ movie.title }}" ?
+        <input type="submit" value="Delete" />
+    </form>

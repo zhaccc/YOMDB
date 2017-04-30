@@ -16,11 +16,11 @@
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     {% if can_add %}
     <form action="{% url 'movies:add_item' %}" method="post">
-    {% csrf_token %}
-    <input type="submit" name="add_to_watch" id="qs" value="Add to watchlist" />
-    <input type="hidden" name="title" value="{{ movie.Title }}">
-    <input type="hidden" name="genre" value="{{ movie.Genre }}">
-    <input type="hidden" name="actors" value="{{ movie.Actors }}">
+        {% csrf_token %}
+        <input type="submit" name="add_to_watch" id="qs" value="Add to watchlist" />
+        <input type="hidden" name="title" value="{{ movie.Title }}">
+        <input type="hidden" name="genre" value="{{ movie.Genre }}">
+        <input type="hidden" name="actors" value="{{ movie.Actors }}">
     </form>
     {% endif %}
     

@@ -9,8 +9,7 @@
     <li>{{ movie.date_added }}</li>
     <li>{{ movie.genre }}</li>
     <li>{{ movie.actors }}</li>
-    <li style="float:left">Watched: {% if movie.watched %}Watched{% else %}Not watched{% endif %}
-    </li>
+    <li style="float:left">Watched: {% if movie.watched %}Watched{% else %}Not watched{% endif %}</li>
     
     <form action="{% url 'movies:update_item' movie.id %}" method="post">
         {% csrf_token %}
@@ -21,8 +20,5 @@
     <form action="{% url 'movies:delete_item' movie.id %}">
         <input type="submit" value="Delete" />
     </form>
-
-    <p></p>
-    </ul>
 
 {% endblock %}
