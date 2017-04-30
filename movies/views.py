@@ -22,6 +22,7 @@ def search(request):
                 })
 
         movie = get_movie_data(q)
+        print(movie['Title'])
         if 'Error' in movie:
             return render(request, 'movies/home.html', {
                 'error_message': 'Movie not found.',
@@ -61,6 +62,12 @@ def detail(request, movie_id):
 
 @login_required(login_url = 'movies:login')
 def add_item(request):
+    title = request.POST['title']
+    qset = Watchlist.objects.filter(title__contains = title)
+    if qset:
+        return render(request, 'movies/home.html', {
+               'error_message': 'Duplicate found.',
+            })
     model = Watchlist(title=request.POST['title'], genre=request.POST['genre'],
             actors=request.POST['actors'])
     model.save()
@@ -69,7 +76,7 @@ def add_item(request):
 
 @login_required(login_url = 'movies:login')    
 def delete_item(request, movie_id, template_name='movies/movie_confirm_delete.html'):
-    movie = get_object_or_404(Watchlist, pk=movie_id)    
+    movie = get_object_or_404(Watchlist, pk=movie_id)
     if request.method=='POST':
         movie.delete()
         return HttpResponseRedirect(reverse('movies:watchlist'))

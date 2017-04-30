@@ -13,12 +13,12 @@ def get_movie_data(title_str):
     movie_data = {}
     if (data['Response'] == 'True'):
         movie_data['Title'] = data['Title']
-        movie_data['Actors'] = data['Actors'].split(' , ')
-        movie_data['Language'] = data['Language'].split(' , ')
+        movie_data['Actors'] = data['Actors']
+        movie_data['Language'] = data['Language']
         movie_data['Rated'] = data['Rated']
         movie_data['Released'] = data['Released']
         movie_data['Plot'] = data['Plot']
-        movie_data['Writer'] = data['Writer'].split(' , ')
+        movie_data['Writer'] = data['Writer']
         movie_data['Director'] = data['Director']
         movie_data['Runtime'] = data['Runtime']
         movie_data['Poster'] = data['Poster']
