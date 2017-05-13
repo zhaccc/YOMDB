@@ -21,19 +21,19 @@
     <ul>
         <li><strong>Date Added:</strong> {{ movie.date_added }}</li>
         <li><strong>Watched:</strong> {% if movie.watched %}Watched{% else %}Not watched{% endif %}</li>
-    </ul>
     
-        {% for genres in movies_watchlist.genre.all %}
-            <ul>
-                <li><strong>Genre:</strong> {{ genres.movie_genre }}</li>
-            </ul>
+        {% for x_genre in movie.genre.all %}
+
+            <li><strong>Genre:</strong> {{ x_genre.movie_genre }}</li>
+
         {% endfor %}
         
-        {% for genre in genres %}
-            <ul>
-                <li><strong>Actors:</strong> {{ genre.movie_actors }}</li>
-            </ul>
+        {% for x_actor in movie.actor.all %}
+
+            <li><strong>Actors:</strong> {{ x_actor.movie_actors }}</li>
+
         {% endfor %}
+    </ul>
         
     <form action="{% url 'movies:detail' movie.id %}">
         <input type="submit" value="Details" />

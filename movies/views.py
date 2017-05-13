@@ -52,7 +52,6 @@ def search_watchlist(request):
 def watchlist(request):
     movies_watchlist = Watchlist.objects.all()
     genres = Genre.objects.all()
-    print(genres)
     actors = Actor.objects.all()
     context = { 'movies_watchlist': movies_watchlist, 'genres': genres, 'actors': actors }
     return render(request, 'movies/watchlist.html', context)
@@ -74,10 +73,8 @@ def add_item(request):
             })
     model = Watchlist(title=request.POST['title'])
     model.save()
-    print(model)
     
     actors = Actor(movie_actors=request.POST['actors'])
-    print(actors)
     obj, created = Actor.objects.get_or_create(movie_actors = actors)
     model.actor.add(obj)
 
