@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from movies.utils import get_movie_data
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from movies.models import Watchlist
+from movies.models import Watchlist, Genre, Actor
 
 
 @login_required(login_url = 'movies:login')
@@ -51,7 +51,10 @@ def search_watchlist(request):
 @login_required(login_url = 'movies:login')
 def watchlist(request):
     movies_watchlist = Watchlist.objects.all()
-    context = {'movies_watchlist': movies_watchlist}
+    genres = Genre.objects.all()
+    print(genres)
+    actors = Actor.objects.all()
+    context = { 'movies_watchlist': movies_watchlist, 'genres': genres, 'actors': actors }
     return render(request, 'movies/watchlist.html', context)
 
 
@@ -69,9 +72,20 @@ def add_item(request):
         return render(request, 'movies/home.html', {
                'error_message': 'Duplicate found.',
             })
-    model = Watchlist(title=request.POST['title'], genre=request.POST['genre'],
-            actors=request.POST['actors'])
+    model = Watchlist(title=request.POST['title'])
     model.save()
+    print(model)
+    
+    actors = Actor(movie_actors=request.POST['actors'])
+    print(actors)
+    obj, created = Actor.objects.get_or_create(movie_actors = actors)
+    model.actor.add(obj)
+
+    genre = Genre(movie_genre=request.POST['genre'])        
+
+    obj, created = Genre.objects.get_or_create(movie_genre = genre)
+    model.genre.add(obj)
+
     return HttpResponseRedirect(reverse('movies:watchlist'))
 
 

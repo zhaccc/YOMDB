@@ -17,17 +17,28 @@
 
 {% for movie in movies_watchlist %}
 
-<h3>{{ movie.title }}</h3>
-<ul>
-    <li><strong>Date Added:</strong> {{ movie.date_added }}</li>
-    <li><strong>Genre:</strong> {{ movie.genre }}</li>
-    <li><strong>Actors:</strong> {{ movie.actors }}</li>
-    <li><strong>Watched:</strong> {% if movie.watched %}Watched{% else %}Not watched{% endif %}</li>
-</ul>
-
-<form action="{% url 'movies:detail' movie.id %}">
-    <input type="submit" value="Details" />
-</form>
+    <h3>{{ movie.title }}</h3>
+    <ul>
+        <li><strong>Date Added:</strong> {{ movie.date_added }}</li>
+        <li><strong>Watched:</strong> {% if movie.watched %}Watched{% else %}Not watched{% endif %}</li>
+    </ul>
+    
+        {% for genres in movies_watchlist.genre.all %}
+            <ul>
+                <li><strong>Genre:</strong> {{ genres.movie_genre }}</li>
+            </ul>
+        {% endfor %}
+        
+        {% for genre in genres %}
+            <ul>
+                <li><strong>Actors:</strong> {{ genre.movie_actors }}</li>
+            </ul>
+        {% endfor %}
+        
+    <form action="{% url 'movies:detail' movie.id %}">
+        <input type="submit" value="Details" />
+    </form>
+        
 {% endfor %}
 
 {% endblock %}
