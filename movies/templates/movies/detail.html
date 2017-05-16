@@ -7,17 +7,10 @@
 
     <h1>{{ movie.title }}</h1>
     <li>{{ movie.date_added }}</li>
-    {% for x_genre in movie.genre.all %}
 
-        <li>{{ x_genre.movie_genre }}</li>
-   
-        {% for x_actor in movie.actor.all %}
-
-            <li>{{ x_actor.movie_actors }}</li>
-
-        {% endfor %}
-        
-    {% endfor %}
+    <li>{{ movie.genre.all|join:", " }}</li>
+    
+    <li>{{ movie.actor.all|join:", " }}</li>
     
     <li style="float:left">Watched: {% if movie.watched %}Watched{% else %}Not watched{% endif %}</li>
     

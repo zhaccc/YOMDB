@@ -35,9 +35,11 @@ def search(request):
 @login_required(login_url = 'movies:login')
 def search_watchlist(request):
     q = request.GET['q']
+    #distinct method is used cause we get many queryobjects without it
     get_watchlist = Watchlist.objects.filter(Q(title__contains=q)
         | Q(genre__movie_genre__contains=q)
-        | Q(actor__movie_actors__contains=q))
+        | Q(actor__movie_actors__contains=q)).distinct()
+    print(get_watchlist)
     # we can search watched by either 'yes' or 'watched' 
     if q.lower().strip() in ['yes', 'watched']:
         get_watchlist = Watchlist.objects.filter(Q(watched__icontains = 1))
@@ -63,6 +65,8 @@ def detail(request, movie_id):
 @login_required(login_url = 'movies:login')
 def add_item(request):
     title = request.POST['title']
+    test = request.POST['actors']
+    
     qset = Watchlist.objects.filter(title__contains = title)
     if qset:
         return render(request, 'movies/home.html', {
@@ -71,13 +75,13 @@ def add_item(request):
     model = Watchlist(title=request.POST['title'])
     model.save()
     
-    actors = Actor(movie_actors=request.POST['actors'])
-    obj, created = Actor.objects.get_or_create(movie_actors = actors)
-    model.actor.add(obj)
+    for actor in request.POST['actors'].split(', '):
+        obj, created = Actor.objects.get_or_create(movie_actors = actor)
+        model.actor.add(obj)
 
-    genre = Genre(movie_genre=request.POST['genre'])
-    obj, created = Genre.objects.get_or_create(movie_genre = genre)
-    model.genre.add(obj)
+    for one_genre in request.POST['genre'].split(', '):
+        obj, created = Genre.objects.get_or_create(movie_genre = one_genre)
+        model.genre.add(obj)
 
     return HttpResponseRedirect(reverse('movies:watchlist'))
 

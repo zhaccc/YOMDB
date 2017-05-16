@@ -20,19 +20,10 @@
     <h3>{{ movie.title }}</h3>
     <ul>
         <li><strong>Date Added:</strong> {{ movie.date_added }}</li>
-        <li><strong>Watched:</strong> {% if movie.watched %}Watched{% else %}Not watched{% endif %}</li>
     
-        {% for x_genre in movie.genre.all %}
-
-            <li><strong>Genre:</strong> {{ x_genre.movie_genre }}</li>
-
-        {% endfor %}
-        
-        {% for x_actor in movie.actor.all %}
-
-            <li><strong>Actors:</strong> {{ x_actor.movie_actors }}</li>
-
-        {% endfor %}
+        <li><strong>Genre:</strong> {{ movie.genre.all|join:", " }}</li>
+            
+        <li><strong>Actors:</strong> {{ movie.actor.all|join:", " }}</li>
         
         <li><strong>Watched:</strong> {% if movie.watched %}Watched{% else %}Not watched{% endif %}</li>
     </ul>
