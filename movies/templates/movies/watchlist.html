@@ -10,7 +10,7 @@
 <p> Search: </p>
       
     <form action="{% url 'movies:search_watchlist' %}" method="GET">
-        <input placeholder="enter stuff" type="text" id="q" name="q">
+        <input placeholder="Enter movie data" type="text" id="q" name="q">
         <input type="submit" value="Search" >
     </form>
 
@@ -33,6 +33,8 @@
             <li><strong>Actors:</strong> {{ x_actor.movie_actors }}</li>
 
         {% endfor %}
+        
+        <li><strong>Watched:</strong> {% if movie.watched %}Watched{% else %}Not watched{% endif %}</li>
     </ul>
         
     <form action="{% url 'movies:detail' movie.id %}">

@@ -35,10 +35,9 @@ def search(request):
 @login_required(login_url = 'movies:login')
 def search_watchlist(request):
     q = request.GET['q']
-    get_watchlist = Watchlist.objects.filter(Q(title__contains=q) 
-        | Q(actors__contains=q)
-        | Q(genre__contains=q)
-        | Q(actors__contains=q))
+    get_watchlist = Watchlist.objects.filter(Q(title__contains=q)
+        | Q(genre__movie_genre__contains=q)
+        | Q(actor__movie_actors__contains=q))
     # we can search watched by either 'yes' or 'watched' 
     if q.lower().strip() in ['yes', 'watched']:
         get_watchlist = Watchlist.objects.filter(Q(watched__icontains = 1))
@@ -51,9 +50,7 @@ def search_watchlist(request):
 @login_required(login_url = 'movies:login')
 def watchlist(request):
     movies_watchlist = Watchlist.objects.all()
-    genres = Genre.objects.all()
-    actors = Actor.objects.all()
-    context = { 'movies_watchlist': movies_watchlist, 'genres': genres, 'actors': actors }
+    context = { 'movies_watchlist': movies_watchlist }
     return render(request, 'movies/watchlist.html', context)
 
 
@@ -78,8 +75,7 @@ def add_item(request):
     obj, created = Actor.objects.get_or_create(movie_actors = actors)
     model.actor.add(obj)
 
-    genre = Genre(movie_genre=request.POST['genre'])        
-
+    genre = Genre(movie_genre=request.POST['genre'])
     obj, created = Genre.objects.get_or_create(movie_genre = genre)
     model.genre.add(obj)
 
