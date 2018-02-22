@@ -1,17 +1,19 @@
-import urllib.request
 from urllib.request import urlopen
+from urllib.parse import quote
 import json
 
 
 def get_movie_data(title_str):
     # Turns title into URL title.
-    title = urllib.parse.quote(title_str)
-    request = urlopen("http://www.omdbapi.com/?t={}=&plot=short&type=movie&r=json".format(title))
+    title = quote(title_str)
+    request = urlopen(
+        "http://www.omdbapi.com/?i=tt3896198&apikey=58d27ce7&t={}=&plot=short&type=movie&r=json".format(title)
+    )
     response = request.read().decode("utf-8")
     data = json.loads(response)
 
     movie_data = {}
-    if (data['Response'] == 'True'):
+    if data['Response'] == 'True':
         movie_data['Title'] = data['Title']
         movie_data['Actors'] = data['Actors']
         movie_data['Language'] = data['Language']

@@ -11,4 +11,4 @@ class AuthTests(TestCase):
         and redirects to login page.
         """
         response = self.client.get(reverse('movies:watchlist'))
-        self.assertRedirects(response, '/login/?next=/watchlist', status_code = 302)
+        self.assertRedirects(response, '/login/?next=/watchlist', status_code=302)
