@@ -1,0 +1,9 @@
+*.pyc
+
+.idea
+
+*.xml
+
+*.sqlite3
+
+omdb-venv
