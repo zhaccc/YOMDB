@@ -2,8 +2,5 @@
 
 .idea
 
-*.xml
-
-*.sqlite3
-
 omdb-venv
+
